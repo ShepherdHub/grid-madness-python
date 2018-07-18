@@ -29,6 +29,8 @@ def dijkstra(grid_obj):
             if alt < dist[adj]:
                 dist[adj] = alt
                 prev[adj] = cur_v
+
+                heapq.heappush(Q, [alt, adj])
     
     u = end
     while u in prev:
