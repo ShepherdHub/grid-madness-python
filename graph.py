@@ -1,37 +1,30 @@
 import numpy as np
 
-
 class Graph:
         
     def __init__(self, grid_obj):
     
         self.size = grid_obj['size']
         self.obstacles = grid_obj['obstacles']
-        self.start = grid_obj['start']
-        self.end = grid_obj['end']
-
-        self.grid = np.zeros([self.size,self.size])
         self.graph = {}
 
-    #Below for displaying grid to terminal
-    #Likely will use more efficient data structure for shortest distance algorithms
-    def make_obs(self, graph_type):
-        #Basic Obstacles
-        if graph_type == 'vis':
-            for obs in self.obstacles:
-                self.grid[obs] = 'nan'
-            return self.grid
+        #For testing block below
+        self.grid = np.zeros([self.size,self.size])
         
- 
-
-
+    #*******TESTING: TERMINAL DISPLAY*******
+    def make_obs(self):
+        #Basic Obstacles
+        for obs in self.obstacles:
+            self.grid[obs] = 'nan'
+        return self.grid
+     
     def terminal_display(self):
-        self.grid = self.make_obs(graph_type = 'vis')
+        self.grid = self.make_obs()
         print self.grid
+    #*******END TESTING: TERMINAL DISPLAY*******
 
-    def adjacency(self,i,j):
-        #Not just a grid; (0,0) needs to connect to (1,0), (0,1) AND (1,1) networkx doesn't do this that I'm aware of
-        #Better way?
+    def adjacency(self,i,j, distance = 1):
+        #Better way with something similar to networkx?
 
         adj = [(i,j+1),(i+1,j+1),(i+1,j),(i+1,j-1),(i,j-1),(i-1,j-1),(i-1,j),(i-1,j+1)]
         
@@ -66,7 +59,9 @@ class Graph:
         for obs in self.obstacles:
             if obs in adj:
                 adj.remove(obs)
-
+        
+        #Convert to dict
+        adj = {v:distance for v in adj}
 
         return adj
 
@@ -77,5 +72,6 @@ class Graph:
                 if (i,j) in self.obstacles:
                     continue
                 self.graph[(i,j)] = self.adjacency(i,j)
-    
+        
+        #Returns dict of dicts (SFW)
         return self.graph
