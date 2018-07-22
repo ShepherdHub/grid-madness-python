@@ -5,6 +5,15 @@ from ast import literal_eval
 
 app = Flask(__name__)
 
+# Handle CORS requests
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', 'http://localhost:8000')
+  response.headers.add('Access-Control-Allow-Headers', 'content-type')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+  return response
+
+
 # Routes
 @app.route('/api/find_path', methods=['POST'])
 def find_path():
@@ -20,7 +29,9 @@ def find_path():
         # Default to dijkstra's algorithm
         _,_,path = dijkstra(grid)
 
-    return jsonify({'path': path})
+    response = jsonify({'path': path})
+    
+    return response
 
 # Helper Functions
 def generate_grid(request_body):
