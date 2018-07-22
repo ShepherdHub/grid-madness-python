@@ -32,6 +32,4 @@ def generate_grid(request_body):
     }
 
 def coord_to_tuple(coord):
-    return literal_eval(coord)   
-    
-
+    return literal_eval(coord)
