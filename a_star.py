@@ -13,6 +13,7 @@ def reconstruct_path(came_from, current):
     while current in came_from.keys():
         current = came_from[current]
         total_path.append(current)
+    total_path.reverse()
     return total_path
 
 def a_star(grid_obj):
