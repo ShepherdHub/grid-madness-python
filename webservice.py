@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from graph import Graph
 from dijkstra import dijkstra
+import a_star
 from ast import literal_eval
 
 app = Flask(__name__)
@@ -25,9 +26,12 @@ def find_path():
 
     if algorithm == 'dijkstra':
         _,_,path = dijkstra(grid)
-    else:
+    elif algorithm == 'a-star':
+        path = a_star.a_star(grid)
+    
+    '''else:
         # Default to dijkstra's algorithm
-        _,_,path = dijkstra(grid)
+        _,_,path = dijkstra(grid)'''
 
     response = jsonify({'path': path})
     
